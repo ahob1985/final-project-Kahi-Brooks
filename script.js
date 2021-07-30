@@ -8,18 +8,19 @@ let textP;
 
 // Global ML Variables
 let mobilenet;
-let img; 
+let img;
 
 function setup() {
 
-canvasDiv = createDiv();
-canvas = createCanvas(640, 480);
-canvas.parent(canvasDiv);
-textDiv = createDiv();
-textP = createP("Model loading, please wait...");
-textP.parent(textDiv);
-img = loadImage("images/guinea-pig.jpg");
-const classifier = ml5.imageClassifier('MobileNet', modelLoaded);
+  canvasDiv = createDiv();
+  canvas = createCanvas(640, 480);
+  canvas.parent(canvasDiv);
+
+  textDiv = createDiv();
+  textP = createP("Model loading, please wait...");
+  textP.parent(textDiv);
+
+  img = loadImage("images/guinea-pig.jpg", imageLoaded);
 }
 
 function draw() {
@@ -27,28 +28,29 @@ function draw() {
 }
 
 function imageLoaded() {
-
+  image(img, 0, 0, width, height);
+  mobilenet = ml5.imageClassifier("MobileNet", modelReady);
 }
 
 function modelReady() {
-mobilenet.classify(canvas, gotResults);
+  mobilenet.classify(canvas, gotResults);
 }
 
 function gotResults(error, results) {
 
-let label = results[0].label;
-let confidence = results[0].confidence;
-const classifier = ml5.imageClassifier('Darknet', modelReady);
+  let label = results[0].label;
+  let confidence = results[0].confidence;
+  const classifier = ml5.imageClassifier('Darknet', modelReady);
 
-textP.html("Label: " + label + " - Confidence " + confidence);
+  textP.html("Label: " + label + " - Confidence " + confidence);
 
-  if(error) {
+  if (error) {
 
     console.error(error);
 
   } else {
 
-    
+
 
   }
 
